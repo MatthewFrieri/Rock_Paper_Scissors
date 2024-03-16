@@ -19,13 +19,6 @@ FPS = 120
 def dotProduct(v1, v2):
     return v1[0]*v2[0] + v1[1]*v2[1]
 
-def recolor(surface, color):
-    w, h = surface.get_size()
-    r, g, b = color
-    for x in range(w):
-        for y in range(h):
-            a = surface.get_at((x, y))[3]
-            surface.set_at((x, y), pg.Color(r, g, b, a))
 
 class Box():
     def __init__(self, x, y, w, h):
@@ -44,25 +37,19 @@ class Particle():
 
     def __init__(self, m, pos, vel, rad):
         Particle.particles.append(self)
-        self.rock = pg.transform.scale(pg.image.load("rock.png").convert_alpha(), (rad*2, rad*2))
-        self.paper = pg.transform.scale(pg.image.load("paper.png").convert_alpha(), (rad*2, rad*2))
-        self.scissors = pg.transform.scale(pg.image.load("scissors.png").convert_alpha(), (rad*2, rad*2))
+        self.rock = pg.transform.scale(pg.image.load("Sprites\\rock.png").convert_alpha(), (rad*2, rad*2))
+        self.paper = pg.transform.scale(pg.image.load("Sprites\\paper.png").convert_alpha(), (rad*2, rad*2))
+        self.scissors = pg.transform.scale(pg.image.load("Sprites\\scissors.png").convert_alpha(), (rad*2, rad*2))
 
         self.m = m
         self.pos = pos
         self.vel = vel
         self.acc = [0, 0]
         self.rad = rad
-        self.color = (randint(0, 255), randint(0, 255), randint(0, 255))
-        self.img = pg.transform.scale(pg.image.load("bubble.png").convert_alpha(), (rad*2, rad*2))
-        self.shine = pg.transform.scale(pg.image.load("shine.png").convert_alpha(), (rad*2, rad*2))
         self.state = choice(["r", "p", "s"])
-        recolor(self.img, self.color)
         
 
     def draw(self):
-        #WIN.blit(self.img, (self.pos[0]-self.rad, self.pos[1]-self.rad))
-        #WIN.blit(self.shine, (self.pos[0]-self.rad, self.pos[1]-self.rad))
         if self.state == "r":
             WIN.blit(self.rock, (self.pos[0]-self.rad, self.pos[1]-self.rad))
         if self.state == "p":
@@ -116,10 +103,7 @@ class Particle():
         for subset in combinations:
             if subset not in new:
                 new.append(subset)
-
-
         return new
-
 
     def particleCollisions(grid):
         allCombinations = []
@@ -203,9 +187,7 @@ class Particle():
         p1Prime = [p1NormalPrime[0] + p1TangentPrime[0], p1NormalPrime[1] + p1TangentPrime[1]]
         p2Prime = [p2NormalPrime[0] + p2TangentPrime[0], p2NormalPrime[1] + p2TangentPrime[1]]
 
-        return p1Prime, p2Prime
-   
-   
+        return p1Prime, p2Prime   
 
     def generateParticles(smart, n, rad, vel, offset):
         particles = []
@@ -230,8 +212,6 @@ class Particle():
 
         return particles
 
-
-    
     def generateGrid(n):
         grid = []
         for i in range(n):
@@ -288,7 +268,6 @@ def main():
 
     particles = []
     particles = Particle.generateParticles(True, 70, 20, 400, 0.5)
-
 
 
     # Main loop
